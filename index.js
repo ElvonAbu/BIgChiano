@@ -1,12 +1,13 @@
 const { PublicKey,Keypair,Connection,clusterApiUrl,LAMPORTS_PER_SOL,SystemProgram,sendAndConfirmTransaction,Transaction }= require ("@solana/web3.js");
+require('dotenv').config();
 const bs58 = require('bs58');
 const newaddress=Keypair.generate();
-const httpendpoint="https://wispy-holy-liquid.solana-devnet.quiknode.pro/1fd4343334ec856218ad2f8467df6d3e7af6e5e3";
-const webendpoint="wss://wispy-holy-liquid.solana-devnet.quiknode.pro/1fd4343334ec856218ad2f8467df6d3e7af6e5e3";
+const httpendpoint=process.env.httpendpoint;
+const webendpoint=process.env.wssendpoint;
 const connection=new Connection(httpendpoint,{wss:webendpoint});
 //const sec=newaddress.secretKey;
 const pub=new PublicKey("EgBLkWPZ13jqmY7EyHGrPRxSnQG5LDpcE1EaKfk2qDkn");
-const getsec=bs58.default.decode("2Qn1Huxph2zq3Fa9yz5ReS8296L6C5xLTFEYq1466WwqjBqNpXT9XzdZhVEHpujjRkGkd9sdRCYKZ1SFBUiYaqdk");
+const getsec=bs58.default.decode(process.env.elvsec);
 const signer=Keypair.fromSecretKey(getsec);
 //const pubnewad=signer.publicKey;
 //console.log("new address:",pubnewad);
@@ -27,11 +28,11 @@ async function sendtx(){
 async function main(){
 
 const accounttowatch=Keypair.generate();
-const actowatch=new PublicKey("6E4bWb7seV8uaeugLh6jtmPnU5mV2u8g6R7nSsYQcD3y");
+const actowatch=new PublicKey("2dLU5sZjVSGn5vBux1qvwnfiPpTpTaJ6YXWQSofGTn3K");
 const subscripid=await connection.onAccountChange(actowatch,(updatedaccountinfo)=>
 console.log(`account notification for ${actowatch.toString()}`,updatedaccountinfo.lamports/LAMPORTS_PER_SOL,'sol'),"confirmed");
 console.log("starting websocket...",subscripid);
 }
- main();
+ //main();
 //getb();
-//sendtx();
+sendtx();
