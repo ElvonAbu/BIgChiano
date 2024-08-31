@@ -24,6 +24,7 @@ function geturlshi(){
 }
 
  async function postres(req,res){
+   try{
    const accfield=req.body.account;
    console.log(`this is the the recipients account${accfield}`);
    const sig=SystemProgram.transfer({
@@ -33,9 +34,11 @@ function geturlshi(){
    });
    const tx=new Transaction().add(sig);
    const txx=await sendAndConfirmTransaction(connection,tx,[signer]);
+   res.status(200).json({message,txx})};
+   catch (error){
+res.status(500).json({error:"did not work as expected"});
 
-
-   res.status(200).json({message,txx});
+   }
 }
 
    function main(req,res){
